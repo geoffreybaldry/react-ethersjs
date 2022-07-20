@@ -5,11 +5,11 @@ import TableInfo from './TableInfo';
 import DealerPanel from './DealerPanel';
 import CasinoWarABI from "./CasinoWarABI.json";
 
-
 const App = () => {
 
     // Smart contract address
-    const contractAddress = '0x086479A7d85524E68Cfeb9868C3A29CAd7791cbf';
+    //const contractAddress = '0x086479A7d85524E68Cfeb9868C3A29CAd7791cbf';
+    const contractAddress = window.contractAddress;
 
     const [errorMessage, setErrorMessage] = useState(null);
     const [currentAccount, setCurrentAccount] = useState(null);
@@ -54,7 +54,7 @@ const App = () => {
 
     if (currentAccount && dealerAddress && provider) {
         return (
-            <div>
+            <div className="container">
                 <Header provider={provider} currentAccount={currentAccount}/>
                 <hr/>
                 <TableInfo provider={provider} contract={contract} />
@@ -64,9 +64,9 @@ const App = () => {
         )
     } else {
         return (
-            <div>
+            <div className="container">
                 <button onClick={connectWalletHandler}>{connButtonText}</button>
-
+                <hr/>
                 {errorMessage}
             </div>
         )

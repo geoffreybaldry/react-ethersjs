@@ -9,6 +9,8 @@ const TableInfo = ( { provider, contract } ) => {
 
     const getTableInfo = async () => {
         const gameState = await contract.gameState();
+        const mapGameState = {0: "Started", 1: "Running", 2: "Ended", 3:"Canceled"};
+        const friendlyGameState = mapGameState[gameState];
         const playerCount = ethers.BigNumber.from(await contract.getPlayerCount()).toNumber();
         const tableValue = ethers.utils.formatEther( await(contract.getTableValue()) );
         const maxBetAmount = ethers.utils.formatEther( await(contract.maxBetAmount()) );
@@ -21,6 +23,7 @@ const TableInfo = ( { provider, contract } ) => {
 
         setTableInfo({
             gameState,
+            friendlyGameState,
             playerCount,
             tableValue,
             maxBetAmount,
@@ -35,24 +38,20 @@ const TableInfo = ( { provider, contract } ) => {
     return (
         <Container>
             <Row>
-                <Col>
-                    Gamestate: {tableInfo.gameState}
-                </Col>
-                <Col>
-                    PlayerCount: {tableInfo.playerCount}
-                </Col>
-                <Col>
-                    TableValue: {tableInfo.tableValue} ETH
-                </Col>
-                <Col>
-                    MaxBetAmount: {tableInfo.maxBetAmount} ETH
-                </Col>
-                <Col>
-                    MinBetAmount: {tableInfo.minBetAmount} ETH
-                </Col>
+                <Col> Gamestate:</Col>
+                <Col> PlayerCount:</Col>
+                <Col> TableValue:</Col>
+                <Col> MaxBetAmount:</Col>
+                <Col> MinBetAmount:</Col>
             </Row>
+            <Row>
+                <Col> {tableInfo.friendlyGameState} </Col>
+                <Col> {tableInfo.playerCount} </Col>
+                <Col> {tableInfo.tableValue} ETH </Col>
+                <Col> {tableInfo.maxBetAmount} ETH </Col>
+                <Col> {tableInfo.minBetAmount} ETH </Col>
+            </Row>            
         </Container>
-
   )
 }
 

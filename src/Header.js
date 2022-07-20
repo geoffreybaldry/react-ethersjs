@@ -28,18 +28,23 @@ const Header = ( {provider, currentAccount} ) => {
 
     
     return currentAccount ? <div>
-        <header className="App-header">
+        <header> <h2>Welcome to Casino War!!</h2>
             <Container>
                 <Row>
-                    <Col>Address: {currentAccount}</Col>
-                    <Col>Balance: {basicInfo.balance} ETH</Col>
-                    <Col>Current Block: {basicInfo.block}</Col>
+                    <Col>Your Address:</Col>
+                    <Col>Your Balance:</Col>
+                    <Col>Current Block:</Col>
                 </Row>
+                <Row>
+                    <Col>{currentAccount}</Col>
+                    <Col>{basicInfo.balance} ETH</Col>
+                    <Col>{basicInfo.block}</Col>
+                </Row>                
             </Container>
         </header>
     </div>
     :
-    <div>connect to get header info</div>          
+    <div>Connect to your account to get header info</div>          
 }
 
 export default Header

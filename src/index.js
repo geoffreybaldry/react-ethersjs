@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-//import './index.css';
+import './index.css';
 import App from './App';
 //import Metamask from './Metamask';
 import reportWebVitals from './reportWebVitals';
 
 // A way of declaring a global react variable
-window.contractAddress = "0x7d63464EBc9dA9A90D283D22c33cE24cC6864d56";
+//window.contractAddress = "0x7d63464EBc9dA9A90D283D22c33cE24cC6864d56";
+window.contractAddress = "0xb28bEd093bcB50706Ab87498583E42dA3D7a555E";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
