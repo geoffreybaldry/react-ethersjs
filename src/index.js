@@ -1,16 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-//import App from './App';
-import Metamask from './Metamask';
+//import './index.css';
+import App from './App';
+//import Metamask from './Metamask';
 import reportWebVitals from './reportWebVitals';
-
-/*const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);*/
 
 // A way of declaring a global react variable
 window.contractAddress = "0x7d63464EBc9dA9A90D283D22c33cE24cC6864d56";
@@ -18,17 +11,9 @@ window.contractAddress = "0x7d63464EBc9dA9A90D283D22c33cE24cC6864d56";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Metamask />
+    <App />
   </React.StrictMode>
 );
-
-/*ReactDOM.render(
-  <React.StrictMode>
-    <Metamask />
-  </React.StrictMode>,
-  document.getElementById('root')
-);*/
-
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
