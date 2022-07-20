@@ -2,53 +2,31 @@ import React, { useState, useEffect } from "react"
 import { ethers } from "ethers";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Row, Col } from 'react-bootstrap'
+import GameState from "./GameState";
+import PlayerCount from "./PlayerCount";
+import TableValue from "./TableValue"
+import MaxBetAmount from "./MaxBetAmount";
+import MinBetAmount from "./MinBetAmount";
 
-const TableInfo = ( { provider, contract } ) => {
-
-    const [tableInfo, setTableInfo] = useState({});
-
-    const getTableInfo = async () => {
-        const gameState = await contract.gameState();
-        const playerCount = ethers.BigNumber.from(await contract.getPlayerCount()).toNumber();
-        const tableValue = ethers.utils.formatEther( await(contract.getTableValue()) );
-        const maxBetAmount = ethers.utils.formatEther( await(contract.maxBetAmount()) );
-        const minBetAmount = ethers.utils.formatEther( await(contract.minBetAmount()) );
-
-        provider.on("BetPlacedEvent", (address, amount) => {
-            //setBasicInfo(prev => ({...prev, block }))
-            console.log('Bet of ' + amount + ' placed by player with address: ' + address);
-        })
-
-        setTableInfo({
-            gameState,
-            playerCount,
-            tableValue,
-            maxBetAmount,
-            minBetAmount
-        })
-    }
-
-    useEffect(() => {
-        getTableInfo();
-    });
+const TableInfo = ( { contract } ) => {
 
     return (
         <Container>
             <Row>
                 <Col>
-                    Gamestate: {tableInfo.gameState}
+                    Gamestate: <GameState contract={contract} />
                 </Col>
                 <Col>
-                    PlayerCount: {tableInfo.playerCount}
+                    PlayerCount: <PlayerCount contract={contract} />
                 </Col>
                 <Col>
-                    TableValue: {tableInfo.tableValue} ETH
+                    TableValue: <TableValue contract={contract} /> ETH
                 </Col>
                 <Col>
-                    MaxBetAmount: {tableInfo.maxBetAmount} ETH
+                    MaxBetAmount: <MaxBetAmount contract={contract} /> ETH
                 </Col>
                 <Col>
-                    MinBetAmount: {tableInfo.minBetAmount} ETH
+                    MinBetAmount: <MinBetAmount contract={contract} /> ETH
                 </Col>
             </Row>
         </Container>

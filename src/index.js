@@ -9,10 +9,13 @@ import reportWebVitals from './reportWebVitals';
 window.contractAddress = "0x7d63464EBc9dA9A90D283D22c33cE24cC6864d56";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+/*root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
+);*/
+root.render(
+  <App />
 );
 
 // If you want to start measuring performance in your app, pass a function

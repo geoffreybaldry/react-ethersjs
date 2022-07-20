@@ -9,7 +9,7 @@ import CasinoWarABI from "./CasinoWarABI.json";
 const App = () => {
 
     // Smart contract address
-    const contractAddress = '0x086479A7d85524E68Cfeb9868C3A29CAd7791cbf';
+    const contractAddress = '0xac9e4b1e08b28fffbb528860ba0ecbff4a3d555f';
 
     const [errorMessage, setErrorMessage] = useState(null);
     const [currentAccount, setCurrentAccount] = useState(null);
@@ -34,11 +34,14 @@ const App = () => {
     }
 
     const accountChangedHandler = (newAccount) => {
+        console.log("App.js - accountChangedHandler()");
         setCurrentAccount(newAccount);
         updateEthers();
     }
 
     const updateEthers = async () => {
+        console.log("App.js - updateEthers()");
+
         let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
         setProvider(tempProvider);
 
@@ -52,12 +55,12 @@ const App = () => {
         setDealerAddress(tempDealerAddress);
     }
 
-    if (currentAccount && dealerAddress && provider) {
+    if (currentAccount && dealerAddress && provider && contract) {
         return (
             <div>
                 <Header provider={provider} currentAccount={currentAccount}/>
                 <hr/>
-                <TableInfo provider={provider} contract={contract} />
+                <TableInfo contract={contract} />
                 <hr/>
                 <DealerPanel dealerAddress={dealerAddress} currentAccount={currentAccount} provider={provider} contract={contract} />
             </div>

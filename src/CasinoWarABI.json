@@ -50,6 +50,19 @@
 		"type": "event"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_gameState",
+				"type": "string"
+			}
+		],
+		"name": "GameStateChanged",
+		"type": "event"
+	},
+	{
 		"inputs": [],
 		"name": "joinTable",
 		"outputs": [
