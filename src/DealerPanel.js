@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { ethers } from "ethers";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Row, Col } from 'react-bootstrap'
 
@@ -22,7 +21,7 @@ const DealerPanel = ( { dealerAddress, currentAccount, provider, contract }) => 
     }, []);
 
     useEffect(() => {
-        if (gameState == 3) {
+        if (gameState === 3) {
             setButtonText('Start Game')
         } else {
             setButtonText('Cancel Game')
@@ -30,7 +29,7 @@ const DealerPanel = ( { dealerAddress, currentAccount, provider, contract }) => 
     }, [gameState]);
 
     const startGameButtonClickHandler = () => {
-        if (gameState == 3) {
+        if (gameState === 3) {
             contract.startGame()
             .then(setButtonText('Starting...'))
             .then(console.log("Starting the game"))      
@@ -45,21 +44,17 @@ const DealerPanel = ( { dealerAddress, currentAccount, provider, contract }) => 
         <button onClick={startGameButtonClickHandler}>{buttonText}</button>
     )
 
-    if (dealerAddress.toString().toLowerCase() === currentAccount.toString().toLowerCase()) {
-        return (
-            <Container>
-                <Row>
-                    <Col>
-                        {startGameButton}
-                    </Col>
-                </Row>
-            </Container>
-        )
-    } else {
-        return (
-            <div>NotDealer</div>
-        )
-    }
+    
+    return (
+        <Container>
+            <Row>
+                <Col>
+                    {startGameButton}
+                </Col>
+            </Row>
+        </Container>
+    )
+    
 }
 
 export default DealerPanel

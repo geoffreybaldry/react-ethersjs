@@ -1,15 +1,15 @@
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from 'react'
+import CasinoWarABI from "./CasinoWarABI.json";
 import Header from "./Header";
 import TableInfo from './TableInfo';
 import DealerPanel from './DealerPanel';
-import CasinoWarABI from "./CasinoWarABI.json";
-
+import PlayerPanel from './PlayerPanel';
 
 const App = () => {
 
     // Smart contract address
-    const contractAddress = '0xac9e4b1e08b28fffbb528860ba0ecbff4a3d555f';
+    const contractAddress = '0x02a5bfbb644596700c5624ed428371eb0f657023';
 
     const [errorMessage, setErrorMessage] = useState(null);
     const [currentAccount, setCurrentAccount] = useState(null);
@@ -55,14 +55,34 @@ const App = () => {
         setDealerAddress(tempDealerAddress);
     }
 
+    const header = (
+        <Header provider={provider} currentAccount={currentAccount}/>
+    )
+
+    const tableInfo = (
+        <TableInfo contract={contract} />
+    )
+
+    if (dealerAddress && currentAccount) {
+        var dealerPanel = dealerAddress.toString().toLowerCase() === currentAccount.toString().toLowerCase() ? (
+            <DealerPanel contract={contract} />
+        ) : <div></div>
+
+        var playerPanel = dealerAddress.toString().toLowerCase() !== currentAccount.toString().toLowerCase() ? (
+            <PlayerPanel contract={contract} />
+        ) : <div></div>
+    }
+
     if (currentAccount && dealerAddress && provider && contract) {
         return (
             <div>
-                <Header provider={provider} currentAccount={currentAccount}/>
+                {header}
                 <hr/>
-                <TableInfo contract={contract} />
+                {tableInfo}
                 <hr/>
-                <DealerPanel dealerAddress={dealerAddress} currentAccount={currentAccount} provider={provider} contract={contract} />
+                {dealerPanel}
+                {playerPanel}
+                <hr/>
             </div>
         )
     } else {
