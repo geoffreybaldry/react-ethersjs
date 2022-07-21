@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 
 const DealerPanel = ( { dealerAddress, currentAccount, provider, contract }) => {
 
-    const [gameState, setGameState] = useState(0);
+    const [gameState, setGameState] = useState(null);
     const [buttonText, setButtonText] = useState('Start Game');
 
     const getGameState = async () => {
