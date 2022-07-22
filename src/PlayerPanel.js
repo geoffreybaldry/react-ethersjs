@@ -4,10 +4,10 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { ethers } from "ethers"
 import Alert from 'react-bootstrap/Alert'
 
-const PlayerPanel = ( { contract }) => {
+const PlayerPanel = ( { contract, errorsToParent }) => {
 
-    const [showError, setShowError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
+    //const [showError, setShowError] = useState(false);
+    //const [errorMessage, setErrorMessage] = useState(null);
 
     const [gameState, setGameState] = useState(null);
     const [betAmount, setBetAmount] = useState(0);
@@ -26,8 +26,9 @@ const PlayerPanel = ( { contract }) => {
         contract.joinTable(options)
         .then((result) => {}, (error) => {
             console.log(error.reason);
-            setErrorMessage(error.reason);
-            setShowError(true);
+            //setErrorMessage(error.reason);
+            //setShowError(true);
+            errorsToParent(error.reason)
         });
     }
 
@@ -50,21 +51,20 @@ const PlayerPanel = ( { contract }) => {
         </form>
     )
 
-    const errorAlert = showError ? (
+    /*const errorAlert = showError ? (
         <Alert variant='danger' onClose={() => setShowError(false)} dismissible>
             <Alert.Heading>Oh Snap - this is a overly-dramatic error banner!</Alert.Heading>
             <p>
                 {errorMessage}
             </p>
         </Alert>
-    ) : <div></div>
+    ) : <div></div>*/
 
     return (
         <Container>
             <Row>
                 <Col>
                     {joinTableForm}
-                    {errorAlert}
                 </Col>
             </Row>
         </Container>

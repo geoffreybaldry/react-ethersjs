@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Row, Col } from 'react-bootstrap'
 
-const DealerPanel = ( { dealerAddress, currentAccount, provider, contract }) => {
+const DealerPanel = ( { contract }) => {
 
     const [gameState, setGameState] = useState(null);
     const [buttonText, setButtonText] = useState('Start Game');
