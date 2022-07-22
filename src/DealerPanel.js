@@ -20,8 +20,9 @@ const DealerPanel = ( { contract }) => {
         })
     }, []);
 
+    //gameState --> 0 = Ended, 1 = Running, 2 = Canceled
     useEffect(() => {
-        if (gameState === 3) {
+        if (gameState === 0 || gameState === 2) {
             setButtonText('Start Game')
         } else {
             setButtonText('Cancel Game')
@@ -29,14 +30,14 @@ const DealerPanel = ( { contract }) => {
     }, [gameState]);
 
     const startGameButtonClickHandler = () => {
-        if (gameState === 3) {
+        if (gameState === 0 || gameState === 2) { 
             contract.startGame()
             .then(setButtonText('Starting...'))
             .then(console.log("Starting the game"))      
         } else {
             contract.cancelGame()
             .then(setButtonText('Canceling...'))
-            .then(console.log("Canceling the game"))  
+            .then(console.log("Canceling the game"))
         }
     }
 

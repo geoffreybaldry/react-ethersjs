@@ -10,7 +10,8 @@ import PlayerPanel from './PlayerPanel';
 const App = () => {
 
     // Smart contract address
-    const contractAddress = '0x02a5bfbb644596700c5624ed428371eb0f657023';
+    const contractAddress = window.contractAddress;
+    //const contractAddress = '0x02a5bfbb644596700c5624ed428371eb0f657023';
 
     const [errorMessage, setErrorMessage] = useState(null);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
