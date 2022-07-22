@@ -3,16 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Row, Col } from 'react-bootstrap'
 import { ethers } from "ethers"
 
-const PlayerBets = ( { contract }) => {
+const PlayerBets = ( { contract, gameState, playerCount }) => {
 
     const [playerData, setPlayerData] = useState([]);
-    const [playerCount, setPlayerCount] = useState(null);
-
-    const getPlayerCount = async () => {
-        const count = ethers.BigNumber.from(await contract.callStatic.getPlayerCount()).toNumber();
-        setPlayerCount(count);
-        console.log('PlayerBets.js - PlayerCount updated to ' + count);
-    } 
 
     const getPlayers = async () => {
         var playerBetData = [];
@@ -34,15 +27,6 @@ const PlayerBets = ( { contract }) => {
         setPlayerData(playerBetData);
     }
 
-    // If a new bet gets placed re-check the player count so we can update playerBets table if needed
-    useEffect(() => {
-        getPlayerCount();
-        contract.on("BetPlacedEvent", (address, amount) => {
-            console.log('PlayerBets.js - Bet of ' + amount + ' placed by player with address: ' + address);
-            getPlayerCount();
-        })
-    }, []);
-
     // If the playerCount changes, re-check the players so that we can update the playerBets table
     useEffect(() => {
         getPlayers();
@@ -52,7 +36,7 @@ const PlayerBets = ( { contract }) => {
         <Container>
             <p>Current Bets:</p>
             {playerData.map((player, index) => (
-                <p key={player.playerAddress}>PlayerAddress: {player.playerAddress} Bet: {player.playerBet}</p>
+                <p key={player.playerAddress}>PlayerAddress: {player.playerAddress} Bet: {player.playerBet} ETH</p>
             ))}
         </Container>
     )

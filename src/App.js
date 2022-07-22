@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import CasinoWarABI from "./CasinoWarABI.json";
 import Alert from 'react-bootstrap/Alert'
 import Header from "./Header";
-import TableInfo from './TableInfo';
+import SharedStatePanels from './SharedStatePanels';
 import DealerPanel from './DealerPanel';
 import PlayerPanel from './PlayerPanel';
 import PlayerBets from './PlayerBets';
@@ -63,26 +63,11 @@ const App = () => {
         <Header provider={provider} currentAccount={currentAccount}/>
     )
 
-    const tableInfo = (
-        <TableInfo contract={contract} />
-    )
-
     // A function to pass down to children so that the children can pass error data back to parent
-    const errorsToParent = (childErrorMessage) => {
+    /*const errorsToParent = (childErrorMessage) => {
         setErrorMessage(childErrorMessage);
         setShowErrorMessage(true);
-    }
-
-    // Detect if the user is the dealer or a player based on their account addresses
-    if (dealerAddress && currentAccount) {
-        var dealerPanel = dealerAddress.toString().toLowerCase() === currentAccount.toString().toLowerCase() ? (
-            <DealerPanel contract={contract} errorsToParent={errorsToParent}/>
-        ) : <div></div>
-
-        var playerPanel = dealerAddress.toString().toLowerCase() !== currentAccount.toString().toLowerCase() ? (
-            <PlayerPanel contract={contract} errorsToParent={errorsToParent}/>
-        ) : <div></div>
-    }
+    }*/
 
     const errorAlert = showErrorMessage ? (
         <Alert variant='danger' onClose={() => setShowErrorMessage(false)} dismissible>
@@ -103,16 +88,11 @@ const App = () => {
             <div>
                 {header}
                 <hr/>
-                {tableInfo}
+                <SharedStatePanels contract={contract} dealerAddress={dealerAddress} currentAccount={currentAccount}/>
                 <hr/>
-                {dealerPanel}
-                <hr/>
-                {playerBets}
-                {playerPanel}
                 <div className="fixed-bottom">
                     {errorAlert}
                 </div>
-                <hr/>
             </div>
         )
     } else {
