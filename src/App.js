@@ -6,12 +6,12 @@ import Header from "./Header";
 import TableInfo from './TableInfo';
 import DealerPanel from './DealerPanel';
 import PlayerPanel from './PlayerPanel';
+import PlayerBets from './PlayerBets';
 
 const App = () => {
 
     // Smart contract address
     const contractAddress = window.contractAddress;
-    //const contractAddress = '0x02a5bfbb644596700c5624ed428371eb0f657023';
 
     const [errorMessage, setErrorMessage] = useState(null);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
@@ -76,7 +76,7 @@ const App = () => {
     // Detect if the user is the dealer or a player based on their account addresses
     if (dealerAddress && currentAccount) {
         var dealerPanel = dealerAddress.toString().toLowerCase() === currentAccount.toString().toLowerCase() ? (
-            <DealerPanel contract={contract} />
+            <DealerPanel contract={contract} errorsToParent={errorsToParent}/>
         ) : <div></div>
 
         var playerPanel = dealerAddress.toString().toLowerCase() !== currentAccount.toString().toLowerCase() ? (
@@ -93,6 +93,10 @@ const App = () => {
         </Alert>
     ) : <div></div>
 
+    const playerBets = (
+        <PlayerBets contract={contract} />
+    )
+
     // Wait for required state to be set before displaying game page
     if (currentAccount && dealerAddress && provider && contract) {
         return (
@@ -102,6 +106,8 @@ const App = () => {
                 {tableInfo}
                 <hr/>
                 {dealerPanel}
+                <hr/>
+                {playerBets}
                 {playerPanel}
                 <div className="fixed-bottom">
                     {errorAlert}

@@ -26,8 +26,6 @@ const PlayerPanel = ( { contract, errorsToParent }) => {
         contract.joinTable(options)
         .then((result) => {}, (error) => {
             console.log(error.reason);
-            //setErrorMessage(error.reason);
-            //setShowError(true);
             errorsToParent(error.reason)
         });
     }
@@ -50,15 +48,6 @@ const PlayerPanel = ( { contract, errorsToParent }) => {
             <input type="submit" />
         </form>
     )
-
-    /*const errorAlert = showError ? (
-        <Alert variant='danger' onClose={() => setShowError(false)} dismissible>
-            <Alert.Heading>Oh Snap - this is a overly-dramatic error banner!</Alert.Heading>
-            <p>
-                {errorMessage}
-            </p>
-        </Alert>
-    ) : <div></div>*/
 
     return (
         <Container>
