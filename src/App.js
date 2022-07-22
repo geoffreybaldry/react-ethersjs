@@ -4,8 +4,6 @@ import CasinoWarABI from "./CasinoWarABI.json";
 import Alert from 'react-bootstrap/Alert'
 import Header from "./Header";
 import SharedStatePanels from './SharedStatePanels';
-import DealerPanel from './DealerPanel';
-import PlayerPanel from './PlayerPanel';
 import PlayerBets from './PlayerBets';
 
 const App = () => {

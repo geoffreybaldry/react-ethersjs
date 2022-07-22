@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { ethers } from "ethers";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Row, Col } from 'react-bootstrap'
+import Alert from 'react-bootstrap/Alert'
 import DealerPanel from "./DealerPanel";
 import PlayerPanel from "./PlayerPanel";
 import PlayerBets from "./PlayerBets";
@@ -14,10 +15,12 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
         2: 'Canceled'
     };
 
-
     const [gameState, setGameState] = useState(null);
     const [playerCount, setPlayerCount] = useState(null);
     const [tableValue, setTableValue] = useState(null);
+
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     const getGameState = async () => {
         const state = await contract.callStatic.gameState();
@@ -42,6 +45,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
         contract.on("GameStateChanged", (newGameState) => {
             getGameState();
             getPlayerCount(); // because playercount resets to 0 after cancel or win
+            getTableValue(); // likewise
         })
     }, []);
 
@@ -63,9 +67,18 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
 
     // A function to pass down to children so that the children can pass error data back to parent
     const errorsToParent = (childErrorMessage) => {
-        //setErrorMessage(childErrorMessage);
-        //setShowErrorMessage(true);
+        setErrorMessage(childErrorMessage);
+        setShowErrorMessage(true);
     }
+
+    const errorAlert = showErrorMessage ? (
+        <Alert variant='danger' onClose={() => setShowErrorMessage(false)} dismissible>
+            <Alert.Heading>Oh Snap - this is a overly-dramatic error banner!</Alert.Heading>
+            <p>
+                {errorMessage}
+            </p>
+        </Alert>
+    ) : <div></div>
 
     // Detect if the user is the dealer or a player based on their account addresses
     if (dealerAddress && currentAccount) {
@@ -108,6 +121,9 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
             {playerPanel}
             <hr/>
             {playerBets}
+            <div className="fixed-bottom">
+                    {errorAlert}
+            </div>
         </>
         
     )
