@@ -4,7 +4,7 @@ import CasinoWarABI from "./CasinoWarABI.json";
 import Alert from 'react-bootstrap/Alert'
 import Header from "./Header";
 import SharedStatePanels from './SharedStatePanels';
-import PlayerBets from './PlayerBets';
+//import PlayerBets from './PlayerBets';
 
 const App = () => {
 
@@ -76,9 +76,9 @@ const App = () => {
         </Alert>
     ) : <div></div>
 
-    const playerBets = (
-        <PlayerBets contract={contract} />
-    )
+    //const playerBets = (
+    //    <PlayerBets contract={contract} />
+    //)
 
     // Wait for required state to be set before displaying game page
     if (currentAccount && dealerAddress && provider && contract) {

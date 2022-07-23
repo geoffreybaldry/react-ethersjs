@@ -29,12 +29,26 @@ const DealerPanel = ( { contract, gameState, playerCount, tableValue, errorsToPa
     }, [gameState]);
 
     const startGameButtonClickHandler = () => {
-        if (gameState === 0 || gameState === 2) { 
+        /*if (gameState === 0 || gameState === 2) { 
             contract.startGame()
             .then(setStartButtonText('Starting...'))
-            .then(console.log("Starting the game"))      
+            .then(console.log("Starting the game"))     */
+        if (gameState === 0 || gameState === 2) { 
+            contract.startGame()
+            .then((result) => {}, (error) => {
+                console.log(error.message);
+                errorsToParent(error.message);
+                setStartButtonText('Start Game');
+            })
+            .then(setStartButtonText('Starting...'))
+            .then(console.log("Starting the game"))
         } else {
             contract.cancelGame()
+            .then((result) => {}, (error) => {
+                console.log(error.message);
+                errorsToParent(error.message);
+                setStartButtonText('Cancel Game');
+            })
             .then(setStartButtonText('Canceling...'))
             .then(console.log("Canceling the game"))
         }
@@ -52,27 +66,17 @@ const DealerPanel = ( { contract, gameState, playerCount, tableValue, errorsToPa
         }
     }
 
-    /*const startGameButton = (
-        /*startButtonText.startsWith("Start") ?
-        <button className="btn btn-success" onClick={startGameButtonClickHandler}>{startButtonText}</button>
-        :
-        <button className="btn btn-danger" onClick={startGameButtonClickHandler}>{startButtonText}</button>
-        if (startButtonText == "Start") {
-            <button className="btn btn-success" onClick={startGameButtonClickHandler}>{startButtonText}</button>
-        }
-    )*/
-
     const startGameButtonState = () => {
         if (startButtonText === "Start Game") {
             return <button className="btn btn-success" onClick={startGameButtonClickHandler}>{startButtonText}</button>
         } else if  (startButtonText === "Starting...") {
-            return <button className="btn btn-success" onClick={startGameButtonClickHandler}>{startButtonText}
+            return <button className="btn btn-success" onClick={startGameButtonClickHandler} disabled={true}>{startButtonText}
             <FontAwesomeIcon icon={faSpinner} spin />
             </button>
         } else if (startButtonText === "Cancel Game") {
             return <button className="btn btn-danger" onClick={startGameButtonClickHandler}>{startButtonText}</button>
         } else if (startButtonText === "Canceling...") {
-            return <button className="btn btn-danger" onClick={startGameButtonClickHandler}>{startButtonText}
+            return <button className="btn btn-danger" onClick={startGameButtonClickHandler} disabled={true}>{startButtonText}
             <FontAwesomeIcon icon={faSpinner} spin />
             </button>
         }

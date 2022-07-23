@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react"
 import { ethers } from "ethers";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Row, Col } from 'react-bootstrap'
+import Table from 'react-bootstrap/Table';
 import Alert from 'react-bootstrap/Alert'
 import DealerPanel from "./DealerPanel";
 import PlayerPanel from "./PlayerPanel";
+import BlockChainMonitor from "./BlockChainMonitor";
 
 const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
 
@@ -21,6 +23,8 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
 
     const [errorMessage, setErrorMessage] = useState(null);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
+
+    const [toastMessage, setToastMessage] = useState(null);
 
     const getGameState = async () => {
         const state = await contract.callStatic.gameState();
@@ -71,6 +75,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
             getGameState();
             getPlayerCount(); // because playercount resets to 0 after cancel or win
             getTableValue(); // likewise
+            setToastMessage('GameState changed to ' + newGameState);
         })
     }, []);
 
@@ -87,6 +92,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
         contract.on("BetPlacedEvent", (address, amount) => {
             console.log('Bet of ' + amount + ' placed by player with address: ' + address);
             getTableValue();
+            setToastMessage('Bet of ' + ethers.utils.formatEther(amount) + ' placed by player with address: ' + address);
         })
     }, []);
 
@@ -98,7 +104,8 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
 
     const errorAlert = showErrorMessage ? (
         <Alert variant='danger' onClose={() => setShowErrorMessage(false)} dismissible>
-            <Alert.Heading>Oh Snap - this is a overly-dramatic error banner!</Alert.Heading>
+            <Alert.Heading>Oh Snap - an error occurred</Alert.Heading>
+            <hr/>
             <p>
                 {errorMessage}
             </p>
@@ -112,17 +119,32 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
         ) : <div></div>
 
         var playerPanel = dealerAddress.toString().toLowerCase() !== currentAccount.toString().toLowerCase() ? (
-            <PlayerPanel contract={contract} gameState={gameState} playerCount={playerCount} errorsToParent={errorsToParent}/>
+            <PlayerPanel contract={contract} playerData={playerData} currentAccount={currentAccount} errorsToParent={errorsToParent}/>
         ) : <div></div>
     }
 
     const playerBets = (
         <Container>
             <p>Current Bets:</p>
-            {playerData.map((player, index) => (
-                <p key={player.playerAddress}>PlayerAddress: {player.playerAddress} Bet: {player.playerBet} ETH</p>
-            ))}
-        </Container> 
+            <Table striped bordered hover size="sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Player Address</th>
+                        <th scope="col">Bet Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+            
+                {playerData.map((player, index) => (
+                    <tr key={player.playerAddress}>
+                        <td>{player.playerAddress}</td>
+                        <td>{player.playerBet}</td>
+                    </tr> 
+                ))}
+
+                </tbody>
+            </Table>
+        </Container>
     )
 
     return (
@@ -151,9 +173,15 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
             {playerPanel}
             <hr/>
             {playerBets}
+            <BlockChainMonitor toastMessage={toastMessage} />
+            
             <div className="fixed-bottom">
+                <Container>
                     {errorAlert}
+                </Container>   
             </div>
+                
+            
         </>
         
     )
