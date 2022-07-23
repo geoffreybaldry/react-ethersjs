@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Row, Col } from 'react-bootstrap'
 import { ethers } from "ethers"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 const DealerPanel = ( { contract, gameState, playerCount, tableValue, errorsToParent }) => {
 
@@ -50,12 +52,36 @@ const DealerPanel = ( { contract, gameState, playerCount, tableValue, errorsToPa
         }
     }
 
-    const startGameButton = (
-        <button onClick={startGameButtonClickHandler}>{startButtonText}</button>
-    )
+    /*const startGameButton = (
+        /*startButtonText.startsWith("Start") ?
+        <button className="btn btn-success" onClick={startGameButtonClickHandler}>{startButtonText}</button>
+        :
+        <button className="btn btn-danger" onClick={startGameButtonClickHandler}>{startButtonText}</button>
+        if (startButtonText == "Start") {
+            <button className="btn btn-success" onClick={startGameButtonClickHandler}>{startButtonText}</button>
+        }
+    )*/
+
+    const startGameButtonState = () => {
+        if (startButtonText === "Start Game") {
+            return <button className="btn btn-success" onClick={startGameButtonClickHandler}>{startButtonText}</button>
+        } else if  (startButtonText === "Starting...") {
+            return <button className="btn btn-success" onClick={startGameButtonClickHandler}>{startButtonText}
+            <FontAwesomeIcon icon={faSpinner} spin />
+            </button>
+        } else if (startButtonText === "Cancel Game") {
+            return <button className="btn btn-danger" onClick={startGameButtonClickHandler}>{startButtonText}</button>
+        } else if (startButtonText === "Canceling...") {
+            return <button className="btn btn-danger" onClick={startGameButtonClickHandler}>{startButtonText}
+            <FontAwesomeIcon icon={faSpinner} spin />
+            </button>
+        }
+    }
+
+    const startGameButton = startGameButtonState();
 
     const pickWinnerButton = (
-        <button onClick={pickWinnerButtonClickHandler}>Pick Winner</button>
+        <button className="btn btn-primary" onClick={pickWinnerButtonClickHandler}>Pick Winner</button>
     )
 
     

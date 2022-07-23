@@ -4,48 +4,55 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { ethers } from "ethers"
 import Alert from 'react-bootstrap/Alert'
 
-const PlayerPanel = ( { contract, errorsToParent }) => {
+const PlayerPanel = ( { contract, gameState, errorsToParent }) => {
 
-    //const [showError, setShowError] = useState(false);
-    //const [errorMessage, setErrorMessage] = useState(null);
-
-    const [gameState, setGameState] = useState(null);
     const [betAmount, setBetAmount] = useState(0);
-
-    const getGameState = async () => {
-      const state = await contract.callStatic.gameState();
-      setGameState(state);
-      console.log("PlayerPanel.js - GameState updated to " + state);
-    }
+    const [joiningTable, setJoiningTable] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         console.log('Player is betting ' + betAmount + " ETH")
         const options = {value: ethers.utils.parseEther(betAmount)};
         
         contract.joinTable(options)
-        .then((result) => {}, (error) => {
+        .then((result) => {
+            // Things to do upon successful submission
+            setJoiningTable(true);
+        }, (error) => {
             console.log(error.reason);
             errorsToParent(error.reason)
         });
     }
 
-    useEffect(() => {
-      getGameState();
-      contract.on("GameStateChanged", (newGameState) => {
-          getGameState();
-      })
-    }, []);
+    /*const joinTableForm = (
+        <form onSubmit={handleSubmit}>
+            <label>Enter Bet Amount in ETH:
+                <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setBetAmount(e.target.value)}
+                    />
+            </label>
+            <input type="submit" className="btn btn-primary" disabled={joiningTable}/>
+        </form>
+    )*/
 
     const joinTableForm = (
         <form onSubmit={handleSubmit}>
             <label>Enter Bet Amount in ETH:
                 <input
                     type="text"
-                    onChange={(e) => setBetAmount(e.target.value)}
+                    className="form-control"
+                    onChange={(e) => {
+                        setBetAmount(e.target.value)
+                    }}
                     />
             </label>
-            <input type="submit" />
+            <button type="submit" className="btn btn-primary" disabled={joiningTable}>
+                {joiningTable && <i className="fa fa-refresh fa-spin"></i>}
+                Join Table
+            </button>
         </form>
     )
 

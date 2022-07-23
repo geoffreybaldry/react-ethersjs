@@ -5,7 +5,6 @@ import { Container, Row, Col } from 'react-bootstrap'
 import Alert from 'react-bootstrap/Alert'
 import DealerPanel from "./DealerPanel";
 import PlayerPanel from "./PlayerPanel";
-import PlayerBets from "./PlayerBets";
 
 const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
 
@@ -18,6 +17,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
     const [gameState, setGameState] = useState(null);
     const [playerCount, setPlayerCount] = useState(null);
     const [tableValue, setTableValue] = useState(null);
+    const [playerData, setPlayerData] = useState([]);
 
     const [errorMessage, setErrorMessage] = useState(null);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
@@ -39,6 +39,31 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
         setTableValue(value);
         console.log("TableValue updated to " + value);
     }
+
+    const getPlayers = async () => {
+        var playerBetData = [];
+        for (let i=0; i<playerCount; i++) {
+            const playerAddress = await contract.callStatic.players(i);
+            
+            // Get the player's bet data
+            const playerBet = ethers.utils.formatEther(await contract.callStatic.playerBets(playerAddress));
+            console.log('PlayerBets.js - Player with address : ' + playerAddress + ' found with bet amount ' + playerBet + 'ETH');
+
+            // Push this player's entry onto our array
+            playerBetData.push({
+                playerAddress: playerAddress,
+                playerBet: playerBet
+            });
+            
+        }
+        // Set the playerBetData into our component's state
+        setPlayerData(playerBetData);
+    }
+
+    // If the playerCount changes, re-check the players so that we can update the playerBets table
+    useEffect(() => {
+        getPlayers();
+    }, [playerCount]);
 
     useEffect(() => {
         getGameState();
@@ -87,12 +112,17 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
         ) : <div></div>
 
         var playerPanel = dealerAddress.toString().toLowerCase() !== currentAccount.toString().toLowerCase() ? (
-            <PlayerPanel contract={contract} gameState={gameState} playerCount={playerCount} tableValue={tableValue} errorsToParent={errorsToParent}/>
+            <PlayerPanel contract={contract} gameState={gameState} playerCount={playerCount} errorsToParent={errorsToParent}/>
         ) : <div></div>
     }
 
     const playerBets = (
-        <PlayerBets contract={contract} gameState={gameState} playerCount={playerCount}/>
+        <Container>
+            <p>Current Bets:</p>
+            {playerData.map((player, index) => (
+                <p key={player.playerAddress}>PlayerAddress: {player.playerAddress} Bet: {player.playerBet} ETH</p>
+            ))}
+        </Container> 
     )
 
     return (
