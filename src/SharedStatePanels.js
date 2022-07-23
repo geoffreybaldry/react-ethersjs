@@ -92,7 +92,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
         contract.on("BetPlacedEvent", (address, amount) => {
             console.log('Bet of ' + amount + ' placed by player with address: ' + address);
             getTableValue();
-            setToastMessage('Bet of ' + ethers.utils.formatEther(amount) + ' placed by player with address: ' + address);
+            setToastMessage('Bet of ' + ethers.utils.formatEther(amount) + ' ETH placed by player with address: ' + address);
         })
     }, []);
 
