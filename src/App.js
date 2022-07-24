@@ -92,8 +92,9 @@ const App = () => {
         )
     } else {
         return (
-            <div>
-                <button onClick={connectWalletHandler}>{connButtonText}</button>
+            <div className="container">
+                <p><h1>Welcome to Casino War!</h1></p>
+                <button className="btn btn-primary" onClick={connectWalletHandler}>{connButtonText}</button>
             </div>
         )
     }
