@@ -181,7 +181,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
     )
 
     const cardTable = (
-        <CardTable contract={contract} playerCount={playerCount} toastToParent={toastToParent}/>
+        <CardTable contract={contract} playerCount={playerCount} currentAccount={currentAccount} toastToParent={toastToParent}/>
     )
 
     return (

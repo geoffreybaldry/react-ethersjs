@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import Card from 'react-bootstrap/Card';
+import tile000 from './assets/tile000.png'
 
-const CardTable = ( { contract, playerCount, toastToParent } ) => {
+const CardTable = ( { contract, playerCount, currentAccount, toastToParent } ) => {
 
     const [dealtCards, setDealtCards] = useState([]);
     const [displayCards, setDisplayCards] = useState(false);
@@ -41,15 +43,26 @@ const CardTable = ( { contract, playerCount, toastToParent } ) => {
 
     }, [dealtCards, playerCount]);  
 
-    if (displayCards) {
+    //if (displayCards) {
         // Display the cards that were selected
-
-
-    }
-
-    return (
-        <div>No Cards have been drawn in this game.</div>
-    )
+        return (
+            <Card style={{ width: '18rem' }}>
+                <Card.Img variant="top" src={tile000} />
+                    <Card.Body>
+                        <Card.Title>Card Title</Card.Title>
+                        <Card.Text>
+                        Some quick example text to build on the card title and make up the
+                        bulk of the card's content.
+                        </Card.Text>
+                    </Card.Body>
+            </Card>
+        )
+/*
+    } else {
+        return (
+            <div>No Cards have been drawn in this game.</div>
+        )
+    }*/
 }
 
 export default CardTable
