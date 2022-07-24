@@ -15,7 +15,6 @@ const PlayerPanel = ( { contract, playerData, currentAccount, errorsToParent }) 
         let isJoinedTest=false
         for (let i=0; i<playerData.length; i++) {
             if (playerData[i].playerAddress.toLowerCase() === currentAccount.toLowerCase()) {
-                console.log('yep')
                 isJoinedTest=true;
                 break;
             }
@@ -25,7 +24,7 @@ const PlayerPanel = ( { contract, playerData, currentAccount, errorsToParent }) 
     }, [playerData, currentAccount]);
 
     useEffect(() => {
-        console.log('The player has joined the table');
+        console.log('Player isJoined is set to ' + isJoined);
         setJoiningTable(false);
     }, [isJoined]);
 

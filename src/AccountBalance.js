@@ -12,13 +12,20 @@ const AccountBalance = ( { provider, currentAccount }) => {
         setAccountBalance(balanceInEther);
     }
 
-    provider.on("block", (blockNumber) => {
-        getAccountBalance();
-    })
-
     useEffect(() => {
         getAccountBalance();
-    }, []);
+
+        function handleBlockUpdate(blockNumber) {
+            getAccountBalance();
+        }
+
+        provider.on("block", handleBlockUpdate);
+
+        // Unsubscribe in cleanup so we don't end up with multiple 
+        return function cleanup() {
+            provider.off("block", handleBlockUpdate);
+        }
+    });
 
     return (
         <div>

@@ -5,7 +5,6 @@ import { ethers } from "ethers"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
 import Popover from 'react-bootstrap/Popover';
 
 const DealerPanel = ( { contract, gameState, playerCount, tableValue, errorsToParent }) => {
@@ -18,9 +17,9 @@ const DealerPanel = ( { contract, gameState, playerCount, tableValue, errorsToPa
         if (gameState === 1 && playerCount > 0) {
             setPickWinnerButtonText("Pick Winner");
         } else {
-            setPickWinnerButtonText("Can\'t pick Winner");
+            setPickWinnerButtonText("Can't pick Winner");
         }
-    }, [playerCount])
+    }, [playerCount, gameState])
 
     //gameState --> 0 = Ended, 1 = Running, 2 = Canceled
     useEffect(() => {
@@ -94,7 +93,7 @@ const DealerPanel = ( { contract, gameState, playerCount, tableValue, errorsToPa
             return <button className="btn btn-warning" onClick={pickWinnerButtonClickHandler} disabled={true}>{pickWinnerButtonText}
             <FontAwesomeIcon icon={faSpinner} spin />
             </button>
-        } else if (pickWinnerButtonText === "Can\'t pick Winner") {
+        } else if (pickWinnerButtonText === "Can't pick Winner") {
             let reason = "";
             if (gameState !== 1) {
                 reason += 'The Game is not in Running State.';

@@ -2,22 +2,24 @@ import React, { useState, useEffect } from "react"
 import { ToastContainer } from "react-bootstrap";
 import Toast from 'react-bootstrap/Toast'
 
-const BlockChainMonitor = ( { toastMessage } ) => {
+const BlockChainMonitor = ( { toast } ) => {
 
     const [show, setShow] = useState(false);
 
     useEffect(() => {
-        setShow(true)
-    }, [toastMessage]);
+        if (toast.message != null) { 
+            setShow(true)
+        }
+    }, [toast]);
 
     return (
         <ToastContainer className="p-3" position={'top-end'}>
-            <Toast onClose={() => setShow(false)} show={show} delay={5000} autohide>
+            <Toast bg={toast.variant} onClose={() => setShow(false)} show={show} delay={5000} autohide>
                 <Toast.Header>
-                    <strong className="me-auto">Message</strong>
-                    <small>11 mins ago</small>
+                    <strong className="me-auto">{toast.heading}</strong>
+                    <small>{toast.subheading}</small>
                 </Toast.Header>
-            <Toast.Body>{toastMessage}</Toast.Body>
+            <Toast.Body className={toast.variant != null && 'text-white'}>{toast.message}</Toast.Body>
             </Toast>
         </ToastContainer>
     )

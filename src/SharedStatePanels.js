@@ -6,6 +6,7 @@ import Table from 'react-bootstrap/Table';
 import Alert from 'react-bootstrap/Alert'
 import DealerPanel from "./DealerPanel";
 import PlayerPanel from "./PlayerPanel";
+import CardTable from "./CardTable";
 import BlockChainMonitor from "./BlockChainMonitor";
 
 const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
@@ -24,7 +25,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
 
-    const [toastMessage, setToastMessage] = useState(null);
+    const [toast, setToast] = useState({heading: null, subheading: null, message: null, variant: null});
 
     const getGameState = async () => {
         const state = await contract.callStatic.gameState();
@@ -51,7 +52,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
             
             // Get the player's bet data
             const playerBet = ethers.utils.formatEther(await contract.callStatic.playerBets(playerAddress));
-            console.log('PlayerBets.js - Player with address : ' + playerAddress + ' found with bet amount ' + playerBet + 'ETH');
+            console.log('SharedStatePanels.js - Player with address : ' + playerAddress + ' found with bet amount ' + playerBet + 'ETH');
 
             // Push this player's entry onto our array
             playerBetData.push({
@@ -71,12 +72,26 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
 
     useEffect(() => {
         getGameState();
-        contract.on("GameStateChanged", (newGameState) => {
+
+        function handleNewGameState(newGameState) {
             getGameState();
             getPlayerCount(); // because playercount resets to 0 after cancel or win
             getTableValue(); // likewise
-            setToastMessage('GameState changed to ' + newGameState);
-        })
+            setToast({
+                heading: 'GameState Changed',
+                subheading: null,
+                message: 'GameState changed to ' + newGameState,
+                variant: newGameState === 'Running' ? 'success' : newGameState === 'Ended' ? 'warning ': 'danger'
+            })
+        }
+
+        // Subscribe to GameStateChanged events
+        contract.on("GameStateChanged", handleNewGameState);
+
+        // We need to unsubscribe in clean-up or we'll end up with multiple subscriptions
+        return function cleanup() {
+            contract.off("GameStateChanged", handleNewGameState);
+        }
     }, []);
 
     useEffect(() => {
@@ -92,7 +107,14 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
         contract.on("BetPlacedEvent", (address, amount) => {
             console.log('Bet of ' + amount + ' placed by player with address: ' + address);
             getTableValue();
-            setToastMessage('Bet of ' + ethers.utils.formatEther(amount) + ' ETH placed by player with address: ' + address);
+            //setToastMessage('Bet of ' + ethers.utils.formatEther(amount) + ' ETH placed by player with address: ' + address);
+            setToast({
+                heading: 'Bet Placed',
+                subheading: ethers.utils.formatEther(amount) + ' ETH',
+                message: address,
+                variant: 'primary'
+            })
+
         })
     }, []);
 
@@ -100,6 +122,11 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
     const errorsToParent = (childErrorMessage) => {
         setErrorMessage(childErrorMessage);
         setShowErrorMessage(true);
+    }
+
+    // A function to pass down to children so that the children can pass toast data back to parent
+    const toastToParent = (childToast) => {
+        setToast(childToast);
     }
 
     const errorAlert = showErrorMessage ? (
@@ -135,16 +162,26 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
                 </thead>
                 <tbody>
             
-                {playerData.map((player, index) => (
+                {playerData.length === 0 ? (
+                    <tr key={0}>
+                        <td colSpan={2} className="text-center">There are no player bets.</td>
+                    </tr>
+                ) :
+                playerData.map((player, index) => (
                     <tr key={player.playerAddress}>
                         <td>{player.playerAddress}</td>
-                        <td>{player.playerBet}</td>
+                        <td>{player.playerBet} ETH</td>
                     </tr> 
-                ))}
+                ))
+                }
 
                 </tbody>
             </Table>
         </Container>
+    )
+
+    const cardTable = (
+        <CardTable contract={contract} playerCount={playerCount} toastToParent={toastToParent}/>
     )
 
     return (
@@ -173,7 +210,8 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
             {playerPanel}
             <hr/>
             {playerBets}
-            <BlockChainMonitor toastMessage={toastMessage} />
+            {cardTable}
+            <BlockChainMonitor toast={toast} />
             
             <div className="fixed-bottom">
                 <Container>

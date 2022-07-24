@@ -1,10 +1,10 @@
 import { ethers } from 'ethers';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import CasinoWarABI from "./CasinoWarABI.json";
 import Alert from 'react-bootstrap/Alert'
+import { Container } from 'react-bootstrap'
 import Header from "./Header";
 import SharedStatePanels from './SharedStatePanels';
-//import PlayerBets from './PlayerBets';
 
 const App = () => {
 
@@ -61,12 +61,6 @@ const App = () => {
         <Header provider={provider} currentAccount={currentAccount}/>
     )
 
-    // A function to pass down to children so that the children can pass error data back to parent
-    /*const errorsToParent = (childErrorMessage) => {
-        setErrorMessage(childErrorMessage);
-        setShowErrorMessage(true);
-    }*/
-
     const errorAlert = showErrorMessage ? (
         <Alert variant='danger' onClose={() => setShowErrorMessage(false)} dismissible>
             <Alert.Heading>Oh Snap - this is a overly-dramatic error banner!</Alert.Heading>
@@ -76,13 +70,8 @@ const App = () => {
         </Alert>
     ) : <div></div>
 
-    //const playerBets = (
-    //    <PlayerBets contract={contract} />
-    //)
-
-    // Wait for required state to be set before displaying game page
-    if (currentAccount && dealerAddress && provider && contract) {
-        return (
+    const mainPage = (
+        <Container>
             <div>
                 {header}
                 <hr/>
@@ -92,6 +81,14 @@ const App = () => {
                     {errorAlert}
                 </div>
             </div>
+        </Container>
+    )
+
+
+    // Wait for required state to be set before displaying game page
+    if (currentAccount && dealerAddress && provider && contract) {
+        return (
+            mainPage
         )
     } else {
         return (
