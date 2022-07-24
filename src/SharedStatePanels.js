@@ -107,7 +107,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
         contract.on("BetPlacedEvent", (address, amount) => {
             console.log('Bet of ' + amount + ' placed by player with address: ' + address);
             getTableValue();
-            //setToastMessage('Bet of ' + ethers.utils.formatEther(amount) + ' ETH placed by player with address: ' + address);
+    
             setToast({
                 heading: 'Bet Placed',
                 subheading: ethers.utils.formatEther(amount) + ' ETH',
@@ -210,6 +210,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
             {playerPanel}
             <hr/>
             {playerBets}
+            <hr/>
             {cardTable}
             <BlockChainMonitor toast={toast} />
             
@@ -218,6 +219,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
                     {errorAlert}
                 </Container>   
             </div>
+            
                 
             
         </>
