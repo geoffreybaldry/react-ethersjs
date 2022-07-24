@@ -12,7 +12,7 @@ const Header = ( {provider, currentAccount} ) => {
                 <h3>Casino War - Live Table Info</h3>
                 <hr />
                 <Row>
-                    <Col>Address: {currentAccount}</Col>
+                    <Col>Account: {currentAccount}</Col>
                     <Col>Balance: <AccountBalance provider={provider} currentAccount={currentAccount}/></Col>
                     <Col>Current Block: <Block provider={provider} /></Col>
                 </Row>

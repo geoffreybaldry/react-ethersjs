@@ -86,14 +86,14 @@ const App = () => {
 
 
     // Wait for required state to be set before displaying game page
-    if (currentAccount && dealerAddress && provider && contract) {
+    if (currentAccount && dealerAddress && provider && contract && signer) {
         return (
             mainPage
         )
     } else {
         return (
             <div className="container">
-                <p><h1>Welcome to Casino War!</h1></p>
+                <h1>Welcome to Casino War!</h1>
                 <button className="btn btn-primary" onClick={connectWalletHandler}>{connButtonText}</button>
             </div>
         )
