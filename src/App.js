@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import CasinoWarABI from "./CasinoWarABI.json";
 import Alert from 'react-bootstrap/Alert'
 import { Container } from 'react-bootstrap'
+import ContractInfo from './ContractInfo';
 import Header from "./Header";
 import SharedStatePanels from './SharedStatePanels';
 
@@ -84,9 +85,17 @@ const App = () => {
         </Alert>
     ) : <div></div>
 
+    const contractInfo = (
+        <ContractInfo contractAddress={contractAddress} />
+    )
+
     const mainPage = (
         <Container>
+            <h3>Casino War - Live Table Info</h3>
+            <hr/>
             <div>
+                {contractInfo}
+                <hr/>
                 {header}
                 <hr/>
                 <SharedStatePanels contract={contract} dealerAddress={dealerAddress} currentAccount={currentAccount}/>

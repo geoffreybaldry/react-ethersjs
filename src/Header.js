@@ -9,8 +9,6 @@ const Header = ( {provider, currentAccount} ) => {
     return currentAccount ? <div>
         <header className="App-header">
             <Container>
-                <h3>Casino War - Live Table Info</h3>
-                <hr />
                 <Row>
                     <Col>Account: {currentAccount}</Col>
                     <Col>Balance: <AccountBalance provider={provider} currentAccount={currentAccount}/></Col>
