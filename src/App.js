@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CasinoWarABI from "./CasinoWarABI.json";
 import Alert from 'react-bootstrap/Alert'
 import { Container } from 'react-bootstrap'
@@ -57,13 +57,27 @@ const App = () => {
         setDealerAddress(tempDealerAddress);
     }
 
+    useEffect(() => {
+        function handler (accounts) {
+            accountChangedHandler(accounts[0])
+        } 
+        // Subscribe to account switching events
+        console.log('Subscribing to accountsChanged event.')
+        window.ethereum.on('accountsChanged', handler);
+
+        return function cleanup() {
+            console.log('Un-Subscribing from accountsChanged event.')
+            window.ethereum.removeListener('accountsChanged', handler)
+        }
+    }, []);  
+
     const header = (
         <Header provider={provider} currentAccount={currentAccount}/>
     )
 
     const errorAlert = showErrorMessage ? (
         <Alert variant='danger' onClose={() => setShowErrorMessage(false)} dismissible>
-            <Alert.Heading>Oh Snap - this is a overly-dramatic error banner!</Alert.Heading>
+            <Alert.Heading>Oh Snap - an error occurred</Alert.Heading>
             <p>
                 {errorMessage}
             </p>
