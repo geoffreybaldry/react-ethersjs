@@ -44,6 +44,12 @@
 				"internalType": "uint256",
 				"name": "_cardNumber",
 				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_cardType",
+				"type": "uint256"
 			}
 		],
 		"name": "CardDealtEvent",

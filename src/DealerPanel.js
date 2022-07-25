@@ -7,7 +7,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
-const DealerPanel = ( { contract, gameState, playerCount, tableValue, errorsToParent }) => {
+const DealerPanel = ( { contract, gameState, playerCount, tableValue, errorsToParent, clickStartEventToParent }) => {
 
 
     const [startButtonText, setStartButtonText] = useState('Start Game');
@@ -41,6 +41,7 @@ const DealerPanel = ( { contract, gameState, playerCount, tableValue, errorsToPa
             })
             .then(setStartButtonText('Starting...'))
             .then(console.log("Starting the game"))
+            .then(clickStartEventToParent())
         } else {
             contract.cancelGame()
             .then((result) => {}, (error) => {

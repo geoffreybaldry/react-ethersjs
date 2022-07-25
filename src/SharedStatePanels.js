@@ -27,6 +27,8 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
 
     const [toast, setToast] = useState({heading: null, subheading: null, message: null, variant: null});
 
+    const [resetCardTable, setResetCardTable] = useState(false);
+
     const getGameState = async () => {
         const state = await contract.callStatic.gameState();
         setGameState(state);
@@ -118,16 +120,29 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
         })
     }, []);
 
+    useEffect(() => {
+        // If the gameState transitions to Running, then tell the cardTable not to reset
+        if (gameState === 1) {
+            console.log('Setting resetCardTable to false.')
+            setResetCardTable(false);
+        }
+    }, [gameState]); 
+
     // A function to pass down to children so that the children can pass error data back to parent
     const errorsToParent = (childErrorMessage) => {
         setErrorMessage(childErrorMessage);
         setShowErrorMessage(true);
     }
 
-    // A function to pass down to children so that the children can pass toast data back to parent
-    const toastToParent = (childToast) => {
-        setToast(childToast);
+    const clickStartEventToParent = () => {
+        console.log('Noticed click start event.')
+        setResetCardTable(true)
     }
+
+    // A function to pass down to children so that the children can pass toast data back to parent
+    /*const toastToParent = (childToast) => {
+        setToast(childToast);
+    }*/
 
     const errorAlert = showErrorMessage ? (
         <Alert variant='danger' onClose={() => setShowErrorMessage(false)} dismissible>
@@ -142,7 +157,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
     // Detect if the user is the dealer or a player based on their account addresses
     if (dealerAddress && currentAccount) {
         var dealerPanel = dealerAddress.toString().toLowerCase() === currentAccount.toString().toLowerCase() ? (
-            <DealerPanel contract={contract} gameState={gameState} playerCount={playerCount} tableValue={tableValue} errorsToParent={errorsToParent}/>
+            <DealerPanel contract={contract} gameState={gameState} playerCount={playerCount} tableValue={tableValue} errorsToParent={errorsToParent} clickStartEventToParent={clickStartEventToParent}/>
         ) : <div></div>
 
         var playerPanel = dealerAddress.toString().toLowerCase() !== currentAccount.toString().toLowerCase() ? (
@@ -181,7 +196,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
     )
 
     const cardTable = (
-        <CardTable contract={contract} playerCount={playerCount} currentAccount={currentAccount} toastToParent={toastToParent}/>
+        <CardTable contract={contract} playerCount={playerCount} resetCardTable={resetCardTable} gameState={gameState}/>
     )
 
     return (
