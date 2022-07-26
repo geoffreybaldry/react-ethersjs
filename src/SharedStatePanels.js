@@ -204,19 +204,19 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
             <Container>
                 <Row>
                     <Col>
-                        Gamestate: {GameState[gameState]}
+                        Game State: {GameState[gameState]}
                     </Col>
                     <Col>
-                        PlayerCount: {playerCount}
+                        Player Count: {playerCount}
                     </Col>
                     <Col>
-                        TableValue: {tableValue} ETH
+                        Table Value: {tableValue} ETH
                     </Col>
                     <Col>
-                        MaxBetAmount: 5 ETH
+                        Max Bet Amount: 5 ETH
                     </Col>
                     <Col>
-                        MinBetAmount: 0.5 ETH
+                        Min Bet Amount: 0.5 ETH
                     </Col>
                 </Row>
             </Container>
