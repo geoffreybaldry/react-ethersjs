@@ -7,7 +7,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 const PlayerPanel = ( { contract, gameState, playerData, currentAccount, errorsToParent }) => {
 
-    const [betAmount, setBetAmount] = useState(0);
+    const [betAmount, setBetAmount] = useState("");
     const [joiningTable, setJoiningTable] = useState(false);
     const [isJoined, setIsJoined] = useState(false);
 
@@ -44,7 +44,7 @@ const PlayerPanel = ( { contract, gameState, playerData, currentAccount, errorsT
         });
 
         // Clear the bet amount once submitted
-        setBetAmount(0)
+        setBetAmount("")
     }
 
     const joinTableForm = (
