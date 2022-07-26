@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import React, { useEffect, useState } from 'react'
 import CasinoWarABI from "./CasinoWarABI.json";
 import Alert from 'react-bootstrap/Alert'
-import { Container } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import ContractInfo from './ContractInfo';
 import Header from "./Header";
 import SharedStatePanels from './SharedStatePanels';
@@ -93,17 +93,22 @@ const App = () => {
         <Container>
             <h3>Casino War - Live Table Info</h3>
             <hr/>
-            <div>
-                {contractInfo}
-                <hr/>
-                {header}
-                <hr/>
-                <SharedStatePanels contract={contract} dealerAddress={dealerAddress} currentAccount={currentAccount}/>
-                <hr/>
-                <div className="fixed-bottom">
-                    {errorAlert}
-                </div>
+            <Row>
+                <Col>
+                    {contractInfo}
+                </Col>
+                <Col>
+                    {header}
+                </Col>
+            </Row>
+
+            <hr/>
+            <SharedStatePanels contract={contract} dealerAddress={dealerAddress} currentAccount={currentAccount}/>
+            <hr/>
+            <div className="fixed-bottom">
+                {errorAlert}
             </div>
+           
         </Container>
     )
 

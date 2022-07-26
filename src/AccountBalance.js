@@ -28,9 +28,9 @@ const AccountBalance = ( { provider, currentAccount }) => {
     });
 
     return (
-        <div>
-            {accountBalance} ETH
-        </div>
+        <>
+            {accountBalance}
+        </>
     )
 
 }
