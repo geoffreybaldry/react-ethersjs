@@ -4,15 +4,12 @@ const Block = ( { provider }) => {
 
     const [block, setBlock] = useState(null);
 
-    provider.on("block", (blockNumber) => {
-        setBlock(blockNumber);
-    })
-
     useEffect(() => {
 
         function handler(blockNumber) {
             setBlock(blockNumber)
         }
+
 
         // Subscribe to block update events
         console.log('Block.js - Subscribing to block events.')
@@ -25,10 +22,9 @@ const Block = ( { provider }) => {
         }
     }, [provider]);  
 
-
     return (
         <>
-            {block}
+            {block ? block : 'Loading...'}
         </>
     )
 

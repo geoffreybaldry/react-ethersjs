@@ -17,7 +17,7 @@ const MaxBetAmount = ( { contract } ) => {
     }, []);
 
     return (
-        <div>{maxBetAmount}</div>
+        {maxBetAmount}
     )
 }
 

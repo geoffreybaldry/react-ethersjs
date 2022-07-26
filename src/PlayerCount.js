@@ -20,7 +20,7 @@ const PlayerCount = ( { contract } ) => {
     }, []);
 
     return (
-        <div>{playerCount}</div>
+       {playerCount}
     )
 }
 

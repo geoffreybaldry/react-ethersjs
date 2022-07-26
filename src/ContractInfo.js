@@ -2,39 +2,54 @@ import React from 'react'
 import { Row, Col, Card } from 'react-bootstrap'
 import contractQR from './assets/contract_qr.png'
 import QRCode from "react-qr-code";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 
 function ContractInfo( { contractAddress } ) {
 
-    // Generate the QR code in real-time from the contract address
-    /*return (
-        <Row>
-            <Col>
-                <div className='col-sm-6'>Contract Address: {contractAddress}</div>
-            </Col>
-            <Col>
-                <div className='col-sm-6' style={{ background: 'white', padding: '16px' }}>
-                    <QRCode value={contractAddress} size={100}/>
-                </div>
-            </Col>
-        </Row>
+    const contractAddressPopOver = (
+        <Popover id="popover-basic">
+            <Popover.Header as="h3">Contract Address</Popover.Header>
+                <Popover.Body>
+                    Send ETH direct to this address to join a Running table!
+                </Popover.Body>
+        </Popover>
+    )
 
-    )*/
+    const contractEtherScanPopOver = (
+        <Popover id="popover-basic">
+            <Popover.Header as="h3">Browse on Etherscan</Popover.Header>
+                <Popover.Body>
+                    Scan this QR code to see the contract on Etherscan!
+                </Popover.Body>
+        </Popover>
+    )
 
     return (
         <Card className="h-100">
-            <Card.Header>Contract Address and QR Code</Card.Header>
+            {/*<Card.Header>Contract Address and QR Code</Card.Header>*/}
+            <Card.Header>Contract Address - {contractAddress.slice(0,4) + '...' + contractAddress.slice(contractAddress.length -4)}</Card.Header>
             <Card.Body>
                 <Row>
                     <Col>
-                        <Card.Title>{contractAddress}</Card.Title>
-                        <Card.Subtitle className='mb-2 text-muted'>Send ETH direct to this address to join a Running table!</Card.Subtitle>
+                        <Card.Text>
+                            Address
+                            <OverlayTrigger overlay={contractAddressPopOver} placement={'right'}>
+                                <span className="d-inline-block">
+                                    <QRCode value={contractAddress} size={100}/>
+                                </span>  
+                            </OverlayTrigger>  
+                        </Card.Text>
                     </Col>
                     <Col>
                         <Card.Text>
-                            <div style={{ background: 'white', padding: '16px' }}>
-                                <QRCode value={contractAddress} size={100}/>
-                            </div>
+                            Etherscan 
+                            <OverlayTrigger overlay={contractEtherScanPopOver} placement={'left'}>
+                                <span className="d-inline-block">
+                                    <QRCode value={'https://ropsten.etherscan.io/address/' + contractAddress} size={100}/>
+                                </span>  
+                            </OverlayTrigger>  
                         </Card.Text>
                     </Col>
                 </Row>

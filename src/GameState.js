@@ -18,7 +18,7 @@ const GameState = ( { contract } ) => {
     }, []);
 
     return (
-        <div>{gameState}</div>
+        {gameState}
     )
 }
 

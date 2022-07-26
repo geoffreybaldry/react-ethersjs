@@ -20,7 +20,7 @@ const TableValue = ( { contract } ) => {
     }, []);
 
     return (
-        <div>{tableValue}</div>
+        {tableValue}
     )
 }
 
