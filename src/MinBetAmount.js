@@ -17,7 +17,7 @@ const MinBetAmount = ( { contract } ) => {
     }, []);
 
     return (
-        {minBetAmount}
+        minBetAmount
     )
 }
 

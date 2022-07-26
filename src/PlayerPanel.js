@@ -5,7 +5,7 @@ import { ethers } from "ethers"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
-const PlayerPanel = ( { contract, playerData, currentAccount, errorsToParent }) => {
+const PlayerPanel = ( { contract, gameState, playerData, currentAccount, errorsToParent }) => {
 
     const [betAmount, setBetAmount] = useState(0);
     const [joiningTable, setJoiningTable] = useState(false);
@@ -29,7 +29,7 @@ const PlayerPanel = ( { contract, playerData, currentAccount, errorsToParent }) 
     }, [isJoined]);
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // prevent page refresh
         
         console.log('Player is betting ' + betAmount + " ETH")
         const options = {value: ethers.utils.parseEther(betAmount)};
@@ -42,6 +42,9 @@ const PlayerPanel = ( { contract, playerData, currentAccount, errorsToParent }) 
             console.log(error.reason);
             errorsToParent(error.reason)
         });
+
+        // Clear the bet amount once submitted
+        setBetAmount(0)
     }
 
     const joinTableForm = (
@@ -53,9 +56,11 @@ const PlayerPanel = ( { contract, playerData, currentAccount, errorsToParent }) 
                     onChange={(e) => {
                         setBetAmount(e.target.value)
                     }}
+                    value={betAmount}
                     />
             </label> &nbsp; 
-            <button type="submit" className="btn btn-primary" disabled={joiningTable}>Place Bet
+            <button type="submit" className="btn btn-primary" disabled={joiningTable || isJoined || (gameState !== 1)}>
+                Place Bet
                 {joiningTable && <FontAwesomeIcon icon={faSpinner} spin />}
             </button>
         </form>

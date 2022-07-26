@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 
 const MaxBetAmount = ( { contract } ) => {
 
-    const [maxBetAmount, setMaxBetAmount] = useState(null);
+    const [maxBetAmount, setMaxBetAmount] = useState(0);
 
     const getMaxBetAmount = async () => {
         const amount = ethers.utils.formatEther(await contract.callStatic.maxBetAmount());
@@ -17,7 +17,7 @@ const MaxBetAmount = ( { contract } ) => {
     }, []);
 
     return (
-        {maxBetAmount}
+        maxBetAmount
     )
 }
 

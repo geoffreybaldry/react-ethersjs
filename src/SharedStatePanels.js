@@ -7,6 +7,8 @@ import Alert from 'react-bootstrap/Alert'
 import DealerPanel from "./DealerPanel";
 import PlayerPanel from "./PlayerPanel";
 import CardTable from "./CardTable";
+import MaxBetAmount from "./MaxBetAmount";
+import MinBetAmount from "./MinBetAmount";
 import BlockChainMonitor from "./BlockChainMonitor";
 
 const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
@@ -161,7 +163,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
         ) : <div></div>
 
         var playerPanel = dealerAddress.toString().toLowerCase() !== currentAccount.toString().toLowerCase() ? (
-            <PlayerPanel contract={contract} playerData={playerData} currentAccount={currentAccount} errorsToParent={errorsToParent}/>
+            <PlayerPanel contract={contract} gameState={gameState} playerData={playerData} currentAccount={currentAccount} errorsToParent={errorsToParent}/>
         ) : <div></div>
     }
 
@@ -213,10 +215,10 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
                         Table Value: {tableValue} ETH
                     </Col>
                     <Col>
-                        Max Bet Amount: 5 ETH
+                        Max Bet: <MaxBetAmount contract={contract} /> ETH
                     </Col>
                     <Col>
-                        Min Bet Amount: 0.5 ETH
+                        Min Bet: <MinBetAmount contract={contract} /> ETH
                     </Col>
                 </Row>
             </Container>
