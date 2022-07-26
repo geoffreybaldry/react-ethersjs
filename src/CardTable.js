@@ -197,11 +197,9 @@ const CardTable = ( { contract, playerCount, resetCardTable, gameState } ) => {
                         <Card bg='light' >
                             <Card.Img variant="top" src={CardEnum[player.playerCard]} />
                                 <Card.Body>
-                                    <Card.Title>{'...' + player.playerAddress.slice(player.playerAddress.length -4)}</Card.Title>
-                                    {/*<Card.Text>
-                                    Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.
-                                    </Card.Text>*/}
+                                    {/*<Card.Title>Player</Card.Title>*/}
+                                    <Card.Text> {player.playerAddress.slice(0,4) + '...' + player.playerAddress.slice(player.playerAddress.length -4)}
+                                    </Card.Text>
                                 </Card.Body>
                         </Card>
                     </div>
