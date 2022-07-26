@@ -216,7 +216,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
                         MaxBetAmount: 5 ETH
                     </Col>
                     <Col>
-                        MinBetAmount: 1 ETH
+                        MinBetAmount: 0.5 ETH
                     </Col>
                 </Row>
             </Container>

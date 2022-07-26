@@ -54,7 +54,7 @@ const PlayerPanel = ( { contract, playerData, currentAccount, errorsToParent }) 
                         setBetAmount(e.target.value)
                     }}
                     />
-            </label>
+            </label> &nbsp; 
             <button type="submit" className="btn btn-primary" disabled={joiningTable}>Place Bet
                 {joiningTable && <FontAwesomeIcon icon={faSpinner} spin />}
             </button>

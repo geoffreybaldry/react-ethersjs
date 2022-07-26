@@ -10,7 +10,7 @@ function ContractInfo( { contractAddress } ) {
             <div className='col-sm-6'>Contract Address: {contractAddress}</div>
             </Col>
             <Col>
-                <img src={contractQR} />
+                <img src={contractQR}/>
                 </Col>
         </Row>
     )
