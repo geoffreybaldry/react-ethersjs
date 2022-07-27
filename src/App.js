@@ -102,7 +102,7 @@ const App = () => {
                 </Col>
             </Row>
 
-            <hr/>
+            <br/>
             <SharedStatePanels contract={contract} dealerAddress={dealerAddress} currentAccount={currentAccount}/>
             <hr/>
             <div className="fixed-bottom">

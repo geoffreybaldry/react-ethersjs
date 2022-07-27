@@ -224,7 +224,7 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
                 </Row>
             </Card.Body>
             </Card>
-            <hr/>
+            <br/>
             {dealerPanel}
             {playerPanel}
             <hr/>
