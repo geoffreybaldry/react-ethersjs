@@ -33,8 +33,8 @@ function ContractInfo( { contractAddress } ) {
             <Card.Body>
                 <Row>
                     <Col>
+                    <span>Address</span>
                         <Card.Text>
-                            Address
                             <OverlayTrigger overlay={contractAddressPopOver} placement={'right'}>
                                 <span className="d-inline-block">
                                     <QRCode value={contractAddress} size={100}/>
@@ -43,8 +43,8 @@ function ContractInfo( { contractAddress } ) {
                         </Card.Text>
                     </Col>
                     <Col>
+                    <span>Etherscan</span>                    
                         <Card.Text>
-                            Etherscan 
                             <OverlayTrigger overlay={contractEtherScanPopOver} placement={'left'}>
                                 <span className="d-inline-block">
                                     <QRCode value={'https://ropsten.etherscan.io/address/' + contractAddress} size={100}/>

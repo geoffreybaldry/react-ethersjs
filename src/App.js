@@ -93,7 +93,6 @@ const App = () => {
         <Container>
             <style>{'body { font-family: sans-serif;}'}</style>
             <h3>Casino War - Live Table Info</h3>
-            <hr/>
             <Row>
                 <Col>
                     {contractInfo}

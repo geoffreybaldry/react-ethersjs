@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { ethers } from "ethers";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Card } from 'react-bootstrap'
 import Table from 'react-bootstrap/Table';
 import Alert from 'react-bootstrap/Alert'
 import DealerPanel from "./DealerPanel";
@@ -203,7 +203,8 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
 
     return (
         <>
-            <Container>
+            <Card className="h-100">
+            <Card.Body>
                 <Row>
                     <Col>
                         Game State: {GameState[gameState]}
@@ -221,7 +222,8 @@ const SharedStatePanels = ( {contract, dealerAddress, currentAccount} ) => {
                         Min Bet: <MinBetAmount contract={contract} /> ETH
                     </Col>
                 </Row>
-            </Container>
+            </Card.Body>
+            </Card>
             <hr/>
             {dealerPanel}
             {playerPanel}

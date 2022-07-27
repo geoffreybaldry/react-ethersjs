@@ -25,13 +25,13 @@ const Header = ( {provider, currentAccount} ) => {
             <Card.Header>Your Wallet Information</Card.Header>
             <Card.Body>
                 <Row>
-                    Account: {currentAccount.slice(0,4) + '...' + currentAccount.slice(currentAccount.length -4)}
+                    <Col>Account: {currentAccount.slice(0,4) + '...' + currentAccount.slice(currentAccount.length -4)}</Col>
                 </Row>
                 <Row>
-                    Balance: <AccountBalance provider={provider} currentAccount={currentAccount}/> ETH
+                    <Col>Balance: <AccountBalance provider={provider} currentAccount={currentAccount}/> ETH</Col>
                 </Row>
                 <Row>
-                    Current Block:<Block provider={provider} />
+                    <Col>Current Block:<Block provider={provider} /></Col>
                 </Row>
             </Card.Body>
         </Card>
