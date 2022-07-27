@@ -32,7 +32,9 @@ const App = () => {
                 setConnButtonText('Wallet Connected');
             })
         } else {
+            console.log('here');
             setErrorMessage("Need to install MetaMask!");
+            setShowErrorMessage(true);
         }
     }
 
@@ -62,13 +64,18 @@ const App = () => {
         function handler (accounts) {
             accountChangedHandler(accounts[0])
         } 
-        // Subscribe to account switching events
-        console.log('Subscribing to accountsChanged event.')
-        window.ethereum.on('accountsChanged', handler);
+
+        if (window.ethereum) {
+            // Subscribe to account switching events
+            console.log('Subscribing to accountsChanged event.')
+            window.ethereum.on('accountsChanged', handler);
+        }
 
         return function cleanup() {
-            console.log('Un-Subscribing from accountsChanged event.')
-            window.ethereum.removeListener('accountsChanged', handler)
+            if (window.ethereum) {
+                console.log('Un-Subscribing from accountsChanged event.')
+                window.ethereum.removeListener('accountsChanged', handler)
+            }
         }
     }, []);  
 
@@ -120,10 +127,15 @@ const App = () => {
         )
     } else {
         return (
-            <div className="container">
-                <h1>Welcome to Casino War!</h1>
-                <button className="btn btn-primary" onClick={connectWalletHandler}>{connButtonText}</button>
-            </div>
+            <>
+                <div className="container">
+                    <h1>Welcome to Casino War!</h1>
+                    <button className="btn btn-primary" onClick={connectWalletHandler}>{connButtonText}</button>
+                </div>
+                <div className="fixed-bottom">
+                    {errorAlert}
+                </div>
+            </>
         )
     }
 
