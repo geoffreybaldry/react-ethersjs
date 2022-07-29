@@ -33,7 +33,6 @@ function ContractInfo( { contractAddress } ) {
             <Card.Body>
                 <Row>
                     <Col>
-                    <span>Address</span>
                         <Card.Text>
                             <OverlayTrigger overlay={contractAddressPopOver} placement={'right'}>
                                 <span className="d-inline-block">
@@ -41,9 +40,9 @@ function ContractInfo( { contractAddress } ) {
                                 </span>  
                             </OverlayTrigger>  
                         </Card.Text>
+                        <span>Send to Address</span>                        
                     </Col>
                     <Col>
-                    <span>Etherscan</span>                    
                         <Card.Text>
                             <OverlayTrigger overlay={contractEtherScanPopOver} placement={'left'}>
                                 <span className="d-inline-block">
@@ -51,6 +50,7 @@ function ContractInfo( { contractAddress } ) {
                                 </span>  
                             </OverlayTrigger>  
                         </Card.Text>
+                        <span>Check on Etherscan</span>
                     </Col>
                 </Row>
             </Card.Body>
