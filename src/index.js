@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 
 // A way of declaring a global react variable
 //window.contractAddress = "0xec2e1cce689396ac63beca34a12fb8236fa2d495"
-window.contractAddress = "0x123BFf904bcC1C59C018497C56158e54CF818Ecb"
+window.contractAddress = "0x72f9B8F9f60b64d1E862d8dc792B1348E1E4677a"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
